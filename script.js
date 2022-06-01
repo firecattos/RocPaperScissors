@@ -33,6 +33,24 @@ function playGame(playerSelection/*non casesensitive*/, computerSelection){ //Re
     }
 }
 
-let playerSelection="paper";
+function game(){
+    let playerScore=0, computerScore=0, drawCount=0, gameScore;
+    let playerSelection="scissors";
+    for(let i=0; i<5; i++){
+        gameScore=playGame(computerPlay(), playerSelection);
+        console.log(gameScore);
+        if((gameScore.charAt(4))==='l') computerScore++;
+        else if((gameScore.charAt(4))==='w') playerScore++;
+        else drawCount++;
+    }
+    if(playerScore>computerScore) console.log("Player wins!");
+    else if(playerScore<computerScore) console.log("Computer wins!");
+    else console.log("Fair game");
+}
+
+game();
+//TO DO: add user input, non case sensitive. Use prompt() for the input
+
+/*let playerSelection="paper";
 console.log("player selection: "+playerSelection);
-console.log(playGame(computerPlay(), playerSelection));
+console.log(playGame(computerPlay(), playerSelection));*/
