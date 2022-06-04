@@ -1,4 +1,4 @@
-function computerPlay(){ //Returns rock, paper or scissors; Rand
+function computerPlay(){ //Returns rock, paper or scissors as computer choice;
     let computerSelection, gener;
     gener=Math.floor(Math.random()*3);
     switch(gener){
@@ -15,12 +15,8 @@ function computerPlay(){ //Returns rock, paper or scissors; Rand
     return computerSelection;
 }
 
-function playGame(playerSelection/*non casesensitive*/, computerSelection){ //Returns (ex.)"You lose! X beats Y"
-    //let draw, playerWin, playerLose;
-
+function playGame(playerSelection, computerSelection){ //Returns (ex.)"You lose! X beats Y"
     console.log("Computer choice: "+computerSelection);
-    console.log("Player choice at playGame function: "+playerSelection);
-
     switch(playerSelection){
         case "rock":
             if(computerSelection==="rock") return "That's a draw!";
@@ -39,23 +35,24 @@ function playGame(playerSelection/*non casesensitive*/, computerSelection){ //Re
 
 function game(){
     let playerScore=0, computerScore=0, drawCount=0, gameScore, playerSelection, userInput=null;;
-    //let playerSelection="scissors";
     for(let i=0; i<5; i++){
-        userInput=prompt("Rock, Paper or Scissors?");
-        if(userInput===null){
-            console.log("Choice not valid, try again");
+        userInput=prompt("Rock, Paper or Scissors? Type 'quit' to exit");
+        playerSelection=userInput.toLowerCase();
+        if(playerSelection==="rock" || playerSelection==="paper" || playerSelection==="scissors"){ //Take user input and check if it's a valid input
+            gameScore=playGame(playerSelection, computerPlay());
+            console.log(gameScore);
+            if((gameScore.charAt(4))==='l') computerScore++;
+            else if((gameScore.charAt(4))==='w') playerScore++;
+            else drawCount++;
+        }
+        else if(playerSelection==="quit"){
+            console.log("Closing game");
             break;
         }
-        playerSelection=userInput.toLowerCase();
-        
-        console.log("Player choice after conversion: "+playerSelection);
-
-        //gameScore=playGame(computerPlay(), playerSelection);
-        gameScore=playGame(playerSelection, computerPlay());
-        console.log(gameScore);
-        if((gameScore.charAt(4))==='l') computerScore++;
-        else if((gameScore.charAt(4))==='w') playerScore++;
-        else drawCount++;
+        else{
+            console.log("Invalid choice, try again.");
+            i--;
+        }
     }
     if(playerScore>computerScore) console.log("Player wins!");
     else if(playerScore<computerScore) console.log("Computer wins!");
@@ -64,8 +61,3 @@ function game(){
 }
 
 game();
-//TO DO: add user input, non case sensitive. Use prompt() for the input
-
-/*let playerSelection="paper";
-console.log("player selection: "+playerSelection);
-console.log(playGame(computerPlay(), playerSelection));*/
