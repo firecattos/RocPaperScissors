@@ -17,6 +17,10 @@ function computerPlay(){ //Returns rock, paper or scissors; Rand
 
 function playGame(playerSelection/*non casesensitive*/, computerSelection){ //Returns (ex.)"You lose! X beats Y"
     //let draw, playerWin, playerLose;
+
+    console.log("Computer choice: "+computerSelection);
+    console.log("Player choice at playGame function: "+playerSelection);
+
     switch(playerSelection){
         case "rock":
             if(computerSelection==="rock") return "That's a draw!";
@@ -34,10 +38,20 @@ function playGame(playerSelection/*non casesensitive*/, computerSelection){ //Re
 }
 
 function game(){
-    let playerScore=0, computerScore=0, drawCount=0, gameScore;
-    let playerSelection="scissors";
+    let playerScore=0, computerScore=0, drawCount=0, gameScore, playerSelection, userInput=null;;
+    //let playerSelection="scissors";
     for(let i=0; i<5; i++){
-        gameScore=playGame(computerPlay(), playerSelection);
+        userInput=prompt("Rock, Paper or Scissors?");
+        if(userInput===null){
+            console.log("Choice not valid, try again");
+            break;
+        }
+        playerSelection=userInput.toLowerCase();
+        
+        console.log("Player choice after conversion: "+playerSelection);
+
+        //gameScore=playGame(computerPlay(), playerSelection);
+        gameScore=playGame(playerSelection, computerPlay());
         console.log(gameScore);
         if((gameScore.charAt(4))==='l') computerScore++;
         else if((gameScore.charAt(4))==='w') playerScore++;
@@ -46,6 +60,7 @@ function game(){
     if(playerScore>computerScore) console.log("Player wins!");
     else if(playerScore<computerScore) console.log("Computer wins!");
     else console.log("Fair game");
+    console.log("Player score: "+playerScore+"; computer score: "+computerScore+"; draws: "+drawCount+".");
 }
 
 game();
