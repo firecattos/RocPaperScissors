@@ -1,5 +1,21 @@
 let playerScore=0, computerScore=0, drawCount=0, gameScore, playerSelection=null;
 
+const playerChoice=document.querySelector('.playerChoice');
+const computerChoice=document.querySelector('.computerChoice');
+const roundPlay=document.querySelector('.round');
+const roundResult=document.querySelector('.roundResult');
+const gameResult=document.querySelector('.finalResult');
+const playAgain=document.querySelector('.playAgain');
+
+const btnChoice=document.querySelectorAll('.buttonContainer>button'); //Listen for input
+btnChoice.forEach((button)=>{
+    button.addEventListener('click', userInput); 
+});
+
+playAgain.addEventListener('click', ()=>{ //Reload the page
+    window.location.reload(true);
+});
+
 function computerPlay(){ //Returns rock, paper or scissors as computer choice;
     let computerSelection, gener;
     gener=Math.floor(Math.random()*3);
@@ -18,7 +34,7 @@ function computerPlay(){ //Returns rock, paper or scissors as computer choice;
 }
 
 function playGame(playerSelection, computerSelection){ //Returns (ex.)"You lose! X beats Y"
-    console.log("Computer choice: "+computerSelection);
+    computerChoice.textContent="Computer choice: "+computerSelection;
     switch(playerSelection){
         case "rock":
             if(computerSelection==="rock") return "That's a draw!";
@@ -36,47 +52,37 @@ function playGame(playerSelection, computerSelection){ //Returns (ex.)"You lose!
 }
 
 function game(playerSelection){
-        console.log("Inside game player selection (choice variable): "+playerSelection);
         if(playerSelection==="rock" || playerSelection==="paper" || playerSelection==="scissors"){ //Take user input and check if it's a valid input
             gameScore=playGame(playerSelection, computerPlay());
-            console.log(gameScore);
+            roundPlay.textContent=gameScore;
             if((gameScore.charAt(4))==='l') computerScore++;
             else if((gameScore.charAt(4))==='w') playerScore++;
             else drawCount++;
         }
-        /*else if(playerSelection==="quit"){
-            console.log("Closing game");
-            return;
-        //    break;
-        }*/
-        else console.log("Invalid choice, try again.");
-    //}
-    console.log("Player score: "+playerScore+"; computer score: "+computerScore+"; draws: "+drawCount+".");
-    if(playerScore>=5 || computerScore>=5){
-        if(playerScore>computerScore) console.log("Player wins!");
-        if(playerScore<computerScore) console.log("Computer wins!");
+    roundResult.textContent="Player score: "+playerScore+"; computer score: "+computerScore+"; draws: "+drawCount+".";
+    if(playerScore>=5 || computerScore>=5 || drawCount>=5){
+        if(playerScore>computerScore) gameResult.textContent="Player wins!";
+        if(playerScore<computerScore) gameResult.textContent="Computer wins!";
+        else gameResult.textContent="This game is a draw!";
+        btnChoice.forEach((button)=>{
+            button.removeEventListener('click', userInput);
+        });
+        playAgain.style.visibility="visible";
     }
 }
 
-//Logic works, need an exit method for reaching the score
-const btnChoice=document.querySelectorAll('.buttonContainer>button');
-btnChoice.forEach((button)=>{
-    button.addEventListener('click', ()=>{
-        switch(button.id){
-            case "rock":
-                playerSelection="rock";
-                break;
-            case "paper":
-                playerSelection="paper";
-                break;
-            case "scissors":
-                playerSelection="scissors";
-                break;
-            /*case "quit":
-                console.log("quit, to implement");
-                break;*/
-        }
-        console.log("Player selection: "+playerSelection);
-        game(playerSelection);
-    });
-});
+function userInput(e){
+    switch(e.target.id){
+        case "rock":
+            playerSelection="rock";
+            break;
+        case "paper":
+            playerSelection="paper";
+            break;
+        case "scissors":
+            playerSelection="scissors";
+            break;
+    }
+    playerChoice.textContent="Player selection: "+playerSelection;
+    game(playerSelection);
+}
