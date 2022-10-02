@@ -51,13 +51,14 @@ function game(playerSelection){
         }*/
         else console.log("Invalid choice, try again.");
     //}
-    /*if(playerScore>computerScore) console.log("Player wins!");
-    else if(playerScore<computerScore) console.log("Computer wins!");
-    else console.log("Fair game");*/
     console.log("Player score: "+playerScore+"; computer score: "+computerScore+"; draws: "+drawCount+".");
+    if(playerScore>=5 || computerScore>=5){
+        if(playerScore>computerScore) console.log("Player wins!");
+        if(playerScore<computerScore) console.log("Computer wins!");
+    }
 }
 
-
+//Logic works, need an exit method for reaching the score
 const btnChoice=document.querySelectorAll('.buttonContainer>button');
 btnChoice.forEach((button)=>{
     button.addEventListener('click', ()=>{
